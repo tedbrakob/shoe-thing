@@ -19,9 +19,9 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->string('external_strava_id');
-            $table->string('name');
-            $table->string('nickname');
-            $table->unsignedSmallInteger('distance_meters');
+            $table->string('name')->nullable();
+            $table->string('nickname')->nullable();
+            $table->unsignedInteger('distance_meters');
             $table->timestamps();
             $table->softDeletes();
         });
