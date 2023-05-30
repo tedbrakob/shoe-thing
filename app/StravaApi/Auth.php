@@ -19,8 +19,12 @@ Class Auth {
             'response_type' => 'code',
             'redirect_uri' => $redirectUri,
             'approval_prompt' => 'force',
-            'scope' => 'profile:read_all,activity:read_all',
-        ], '', );
+            'scope' => implode(',', [
+                'profile:read_all',
+                'activity:read_all',
+                'activity:write',
+            ]),
+        ]);
 
         return "$baseUrl?$query";
     }

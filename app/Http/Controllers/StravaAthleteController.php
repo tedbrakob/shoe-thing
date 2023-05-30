@@ -11,14 +11,15 @@ class StravaAthleteController extends Controller
     public function __construct(
         protected StravaAthleteService $stravaAthleteService
     )
-    {}
+    {
+    }
 
     public function show($athleteId)
     {
         $athlete = StravaAthlete::with('stravaGears')
             ->find($athleteId);
 
-        $activeGear = $this->stravaAthleteService->getCurrentActiveGear($athlete);
+        $activeGear = $athlete->getCurrentActiveGear($athlete);
         $athlete->activeGearId = $activeGear->id ?? null;
 
         return $athlete;

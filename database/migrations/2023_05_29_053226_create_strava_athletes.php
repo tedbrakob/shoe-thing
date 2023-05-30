@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('strava_athletes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
             $table->unsignedBigInteger('external_strava_id')->unique();
-            $table->dateTime('activities_last_fetched_at')->nullable()->index();
+            $table->dateTime('last_fetched_activity_datetime')->useCurrent();
             $table->timestamps();
             $table->softDeletes();
         });

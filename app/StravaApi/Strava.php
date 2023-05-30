@@ -2,6 +2,7 @@
 
 namespace App\StravaApi;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 class Strava
@@ -33,16 +34,35 @@ class Strava
         }, $data->shoes);
     }
 
-    public function getActivities()
+    public function getActivities(array $options = [])
     {
+        $query = !empty($options) ? http_build_query($options) : '';
+
         $response = Http::withHeaders([
             'Authorization' => "Bearer $this->accessToken",
-        ])->get('https://www.strava.com/api/v3/athlete/activities');
-
+        ])->get("https://www.strava.com/api/v3/athlete/activities?$query");
 
         $body = $response->body();
         $data = json_decode($body);
 
-        return $data;
+        return array_map(function ($activity) {
+            return (object) [
+                'id' => $activity->id,
+                'startDate' => $activity->start_date,
+                'gearId' => $activity->gear_id,
+            ];
+        }, $data);
+    }
+
+    public function updateActivity(int $activityId, array $values): bool
+    {
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer $this->accessToken",
+        ])->put("https://www.strava.com/api/v3/activities/$activityId", $values);
+
+        $body = $response->body();
+        $data = json_decode($body);
+
+        return $response->status() === Response::HTTP_OK;
     }
 }
