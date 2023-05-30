@@ -67,3 +67,5 @@ Sail has been configured in this project to run Horizon and the Artisan command 
 * Implement Strava webhooks endpoint
     * This was intentionally omitted to make use of scheduled commands.
     * The Strava API allows apps to implement a webhook subscription to receive athlete activities.  This would eliminate the need to poll for activities in a scheduled command.
+
+* Tests
