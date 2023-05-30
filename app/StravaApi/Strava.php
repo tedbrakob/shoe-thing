@@ -60,9 +60,6 @@ class Strava
             'Authorization' => "Bearer $this->accessToken",
         ])->put("https://www.strava.com/api/v3/activities/$activityId", $values);
 
-        $body = $response->body();
-        $data = json_decode($body);
-
         return $response->status() === Response::HTTP_OK;
     }
 }
